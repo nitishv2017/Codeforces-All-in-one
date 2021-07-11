@@ -6,3 +6,9 @@
 4. Show your unsolved problems till date.<br/>
 5. Compare yourself with other users statistically.<br/>
 6. Predict your codeforces rating before the actual rating comes for the participated contests. (will be released in next update).<br/>
+ ---------------
+# Developers
+Nitish Vaishnav<br/>
+Satish Chaudhary<br/>
+Pawan Harwani<br/>
+ 
