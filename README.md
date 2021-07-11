@@ -8,7 +8,7 @@
 6. Predict your codeforces rating before the actual rating comes for the participated contests. (will be released in next update).<br/>
  ---------------
 # Developers
-Nitish Vaishnav<br/>
-Satish Chaudhary<br/>
-Pawan Harwani<br/>
+Nitish Vaishnav - https://github.com/nitishv2017 <br/>
+Satish Chaudhary - https://github.com/Satish072001 <br/>
+Pawan Harwani - https://github.com/Pawan966 <br/>
  
