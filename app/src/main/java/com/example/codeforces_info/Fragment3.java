@@ -182,15 +182,25 @@ public class Fragment3 extends Fragment {
 
 
                     List<String> Friends_array =(List<String>) documentSnapshot.get("friends");
-
-                    for(int i=0;i<Friends_array.size();i++)
-                    {
-                        url_multi_friends+=Friends_array.get(i).trim();
-                        if(i<Friends_array.size()-1)
-                        url_multi_friends+=";";
+                    if(Friends_array==null || Friends_array.size()==0)
+                    {   progressBar.setVisibility(View.GONE);
+                        emptyView.setText("No Friends 😥");
+                        emptyView.setVisibility(View.VISIBLE);
                     }
-                    recyclerView = (RecyclerView) v.findViewById(R.id.friend_list);
-                    new fetchFriends().execute();
+                    else
+                    {
+                        for(int i=0;i<Friends_array.size();i++)
+                        {
+                            url_multi_friends+=Friends_array.get(i).trim();
+                            if(i<Friends_array.size()-1)
+                            url_multi_friends+=";";
+                        }
+
+
+                        recyclerView = (RecyclerView) v.findViewById(R.id.friend_list);
+                        new fetchFriends().execute();
+                    }
+
                     /*-------------------------------*/
 
 

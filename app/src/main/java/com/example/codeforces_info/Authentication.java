@@ -148,9 +148,9 @@ public class Authentication extends AppCompatActivity {
 
                             Map<String,String> mp=new HashMap<>();
 
-                            mp.put("handle",CF_id.trim());
 
-                            myRef.set(mp);
+
+                            myRef.update("handle",CF_id.trim());
 
                             startActivity(new Intent(getApplicationContext(),tabs.class));
                             finish();
