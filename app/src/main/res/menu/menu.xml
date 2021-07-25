@@ -9,8 +9,14 @@
         android:title="Profile"
         app:showAsAction="always" />
     <item
+        android:id="@+id/sneakin"
+        android:icon="@drawable/outline_groups_24"
+        android:title="Sneak friends"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/schedules"
         android:icon="@drawable/outline_calendar_today_white_24"
         android:title="Schedules"
         app:showAsAction="ifRoom" />
+
 </menu>

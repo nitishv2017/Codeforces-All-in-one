@@ -240,12 +240,12 @@ public class Fragment2 extends Fragment {
                                         break;
                                     case "master":
                                     case "international master":
-                                        c = R.color.specialist;
+                                        c = R.color.imaster;
                                         break;
                                     case "grandmaster":
                                     case "international grandmaster":
                                     case "legendary grandmaster":
-                                        c = R.color.specialist;
+                                        c = R.color.gmaster;
                                         break;
                                     default:
                                         c = R.color.unrated;

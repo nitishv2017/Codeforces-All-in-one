@@ -26,14 +26,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import org.jetbrains.annotations.NotNull;
 
-import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 
 public class tabs extends AppCompatActivity {
     private static final String TAG = "das";
-    AnimatedBottomBar animatedBottomBar;
+    ChipNavigationBar chipNavigationBar;
     FragmentManager fragmentManager;
 
     @Override
@@ -43,8 +44,12 @@ public class tabs extends AppCompatActivity {
         Log.i(TAG, "onCreate: fuck");
         if(savedInstanceState==null)
         {
-            animatedBottomBar = findViewById(R.id.bottomNavigationView);
-            animatedBottomBar.selectTabById(R.id.profile, true);
+
+
+            chipNavigationBar = findViewById(R.id.bottom_navigation_bar);
+            chipNavigationBar.setItemSelected(R.id.profile,true);
+            bottomMenu();
+
             fragmentManager = getSupportFragmentManager();
             Fragment2 homeFragment = new Fragment2();
             fragmentManager.beginTransaction().replace(R.id.frameContainer, homeFragment)
@@ -52,48 +57,44 @@ public class tabs extends AppCompatActivity {
 
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.custom_action_bar);
-           // TextView tt=(TextView)findViewById(R.id.ttt);
 
-
-
-           // tt.setText("Profile");
-
-
-            // getSupportActionBar().setTitle(Html.fromHtml("<font color='#FFFFFF'>CF - ALL IN ONE</font>"));
 
 
         }
 
 
 
-        animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+    }
+
+    private void bottomMenu() {
+
+        chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
-            public void onTabSelected(int lastIndex, @Nullable AnimatedBottomBar.Tab lastTab, int newIndex, @NotNull AnimatedBottomBar.Tab newTab) {
+            public void onItemSelected(int i) {
                 Fragment fragment = null;
-                switch (newTab.getId()) {
+                switch (i) {
                     case R.id.schedules:
                         fragment = new Fragment1();
                         break;
                     case R.id.profile:
                         fragment = new Fragment2();
                         break;
+                    case R.id.sneakin:
+                        fragment = new Fragment3();
                 }
 
                 if (fragment != null) {
                     fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.frameContainer, fragment)
-                            .commit();
+                    fragmentManager.beginTransaction().replace(R.id.frameContainer, fragment).commit();
                 } else {
                     Log.e(TAG, "Error in creating Fragment");
                 }
             }
         });
-
-
     }
 
 
-//DOUBLE BACK EXIT
+    //DOUBLE BACK EXIT
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
