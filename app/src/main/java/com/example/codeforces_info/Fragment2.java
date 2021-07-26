@@ -96,13 +96,13 @@ public class Fragment2 extends Fragment {
     ProgressBar pb;
     View showHiddenProfile;
     TextView emptyView;
-
+    View fragment_show_when_ready;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_2, container, false);
-
+        fragment_show_when_ready=view.findViewById(R.id.fragment2_view);
         pb = view.findViewById(R.id.progress_profile);
         Sprite foldingCube = new FoldingCube();
         pb.setIndeterminateDrawable(foldingCube);
@@ -153,7 +153,7 @@ public class Fragment2 extends Fragment {
                                 List<result_user_info_model> data = response.body().getResult();
 
                                 pb.setVisibility(GONE);
-
+                                fragment_show_when_ready.setVisibility(View.VISIBLE);
 
                                 result_user_info_model result = data.get(0);
 
