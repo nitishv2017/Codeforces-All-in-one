@@ -33,6 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
@@ -141,19 +142,34 @@ public class Authentication extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
 
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            Log.i(TAG, "onComplete: ------;;;;;>>>>"+ user.getUid());
                             // Write a message to the database
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference myRef = db.collection("Users").document(user.getUid());
 
-                            Map<String,String> mp=new HashMap<>();
+                            myRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                            myRef.update("handle",CF_id.trim());
+                                        } else {
+                                            Log.d(TAG, "No such document");
 
+                                            Map<String,String> mp=new HashMap<>();
 
-
-                            myRef.update("handle",CF_id.trim());
-
-                            startActivity(new Intent(getApplicationContext(),tabs.class));
-                            finish();
+                                            mp.put("handle",CF_id.trim());
+                                            myRef.set(mp);
+                                        }
+                                        startActivity(new Intent(getApplicationContext(),tabs.class));
+                                        finish();
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
 
 
 

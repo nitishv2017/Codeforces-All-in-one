@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -109,6 +113,7 @@ public class Fragment3 extends Fragment {
     private String qurl="https://codeforces.com/api/user.info?handles=";
     private String url_multi_friends="https://codeforces.com/api/user.info?handles=";
     String status_response;
+    Context cc;
     ProgressBar progressBar ;
     String SearchedFriend="";
     TextView emptyView;
@@ -122,7 +127,7 @@ public class Fragment3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_3, container, false);
-
+        cc=getContext();
         progressBar = (ProgressBar)v.findViewById(R.id.friend_progress);
         Sprite foldingCube = new FoldingCube();
         progressBar.setIndeterminateDrawable(foldingCube);
@@ -319,7 +324,14 @@ public class Fragment3 extends Fragment {
         db = FirebaseFirestore.getInstance();
         DocumentReference myRef = db.collection("Users").document(user.getUid());
 
-        myRef.update("friends", FieldValue.arrayUnion(SearchedFriend));
+        myRef.update("friends", FieldValue.arrayUnion(SearchedFriend)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                // Reload current fragment
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.frameContainer, new Fragment3()).commit();
+            }
+        });
 
     }
 

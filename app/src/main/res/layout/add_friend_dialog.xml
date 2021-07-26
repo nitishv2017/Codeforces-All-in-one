@@ -25,6 +25,10 @@
             android:id="@+id/add_friend_btn"
             />
 
+
+
     </LinearLayout>
+
+
 
 </androidx.cardview.widget.CardView>

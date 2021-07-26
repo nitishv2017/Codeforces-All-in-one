@@ -118,6 +118,7 @@ public class Fragment2 extends Fragment {
         if (networkInfo != null && networkInfo.isConnected()) {
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
+            Log.i(TAG, "onCreateView: --;;;;OOOOOOOO=="+ user.getUid());
             db = FirebaseFirestore.getInstance();
             DocumentReference myRef = db.collection("Users").document(user.getUid());
 
