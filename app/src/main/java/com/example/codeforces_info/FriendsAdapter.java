@@ -63,7 +63,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.friend_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i=new Intent(v.getContext(),Friend_profile_view.class);
+                i.putExtra("handle",current.get(1));
+                v.getContext().startActivity(i);
             }
         });
     }

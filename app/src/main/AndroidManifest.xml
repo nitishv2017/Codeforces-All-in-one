@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codeforces_Info">
-        <activity android:name=".Friend_Profile"></activity>
+        <activity android:name=".Friend_profile_view"></activity>
+        <activity android:name=".Friend_Profile" />
         <activity android:name=".UsernameEntry" />
         <activity
             android:name=".Authentication"

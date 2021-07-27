@@ -59,7 +59,6 @@ public class tabs extends AppCompatActivity {
             getSupportActionBar().setCustomView(R.layout.custom_action_bar);
 
 
-
         }
 
 

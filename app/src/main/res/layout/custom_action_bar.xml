@@ -5,25 +5,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:background="@color/white"
-    tools:context=".tabs">
+     tools:context=".tabs">
 
 
 
 
     <TextView
         android:id="@+id/ttt"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CodeForces - ALL IN ONE"
-        android:layout_marginTop="5dp"
+        android:text="CodeForces - AIO"
+        android:layout_centerInParent="true"
         android:gravity="center"
+        android:fontFamily="@font/title_font"
         android:textSize="20sp"
         android:textColor="@color/primary_dark"
+        android:background="@drawable/round_corners"
+        android:elevation="5dp"
         />
 
 
