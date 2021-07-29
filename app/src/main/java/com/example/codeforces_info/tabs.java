@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,7 +16,6 @@ import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,21 +30,18 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import org.jetbrains.annotations.NotNull;
 
-import nl.psdcompany.duonavigationdrawer.views.DuoDrawerLayout;
-import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
 
 
 public class tabs extends AppCompatActivity {
     private static final String TAG = "das";
     ChipNavigationBar chipNavigationBar;
     FragmentManager fragmentManager;
-    private DuoDrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
         Log.i(TAG, "onCreate: fuck");
-        init();
         if(savedInstanceState==null)
         {
 
@@ -60,28 +55,12 @@ public class tabs extends AppCompatActivity {
             fragmentManager.beginTransaction().replace(R.id.frameContainer, homeFragment)
                     .commit();
 
-//            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//            getSupportActionBar().setCustomView(R.layout.custom_action_bar);
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.custom_action_bar);
 
 
         }
 
-
-
-    }
-
-    private void init() {
-        Toolbar toolbar=findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        drawerLayout= findViewById(R.id.drawer);
-        DuoDrawerToggle drawerToggle = new DuoDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open ,R.string.navigation_drawer_close);
-
-        drawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-
-//        View contentView=drawerLayout.getContentView();
-//        View menuView=drawerLayout.getMenuView();
 
 
     }
