@@ -1,42 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<androidx.drawerlayout.widget.DrawerLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="#EBF6FA"
-    >
+    android:id="@+id/drawer_layout"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    tools:context=".tabs"
+    xmlns:tools="http://schemas.android.com/tools">
 
-
-        <FrameLayout
-            android:id="@+id/frameContainer"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignBottom="@+id/bottom_navigation_bar"
-            android:layout_marginBottom="60dp"
-            android:background="#EBF6FA"
-             />
+            android:orientation="vertical"
+            >
+                <include layout="@layout/main_toolbar"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            xmlns:tools="http://schemas.android.com/tools"
+                            android:background="#EBF6FA"
+                            >
+
+
+                                <FrameLayout
+                                    android:id="@+id/frameContainer"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_alignBottom="@+id/bottom_navigation_bar"
+                                    android:layout_marginBottom="60dp"
+                                    android:background="#EBF6FA"
+                                    />
 
 
 
 
-        <com.ismaeldivita.chipnavigation.ChipNavigationBar
-            android:id="@+id/bottom_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:cnb_menuResource="@menu/menu"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/round_corners"
-            app:cnb_unselectedColor="@color/black"
-            app:cnb_radius="10dp"
-            app:cnb_orientationMode="horizontal"
-            android:elevation="20dp"
-            />
+
+                                <com.ismaeldivita.chipnavigation.ChipNavigationBar
+                                    android:id="@+id/bottom_navigation_bar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="60dp"
+                                    app:cnb_menuResource="@menu/menu"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@drawable/round_corners"
+                                    app:cnb_unselectedColor="@color/black"
+                                    app:cnb_radius="10dp"
+                                    app:cnb_orientationMode="horizontal"
+                                    android:elevation="20dp"
+                                    />
 
 
 
 
-</RelativeLayout>
+                        </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            >
+
+                <include layout="@layout/main_nav_drawer"/>
+        </RelativeLayout>
+
+
+
+
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+
+
 
 
