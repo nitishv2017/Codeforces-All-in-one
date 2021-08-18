@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,9 +48,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,9 +72,9 @@ import static com.google.common.primitives.Ints.max;
  */
 public class Fragment2 extends Fragment {
 
+    private static final String ARG_PARAM1 = "param1";
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -116,10 +120,16 @@ public class Fragment2 extends Fragment {
     PieChart pieChart;
     HorizontalBarChart barChart_tags;
     BarChart barChart_levels;
+    BarChart barChart_ratings;
+
+    //ratings change
+  Integer maxRank=1000000,minRank=0,maxpos=0,maxneg=1000000,total_contests=0;
+    TextView t1,t2,t3,t4,t5;
 
     //submissions👆
     String qurl = "https://codeforces.com/api/";
     String surl = "https://codeforces.com/api/";
+    String purl = "https://codeforces.com/api/";
     String CF_handle;
     FirebaseFirestore db;
     FirebaseUser user;
@@ -146,6 +156,17 @@ public class Fragment2 extends Fragment {
         pieChart=view.findViewById(R.id.pie_chart_verdicts);
         barChart_tags=view.findViewById(R.id.bar_chart_tags);
         barChart_levels=view.findViewById(R.id.bar_chart_levels);
+        barChart_ratings=view.findViewById(R.id.bar_chart_ratings);
+
+        //textview ratings change
+        t1=view.findViewById(R.id.totalcontests);
+        t2=view.findViewById(R.id.bestrank);
+        t3=view.findViewById(R.id.worstrank);
+        t4=view.findViewById(R.id.maxpos);
+        t5=view.findViewById(R.id.maxneg);
+
+
+
 
         // Get details on the currently active default data network
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -196,7 +217,7 @@ public class Fragment2 extends Fragment {
                                 TextView i1, i2;
                                 i1 = view.findViewById(R.id.item_text_1);
                                 i2 = view.findViewById(R.id.item_text_2);
-
+                                
                                 if (result.getHandle() != null) {
                                     i1.setText(result.getHandle());
 
@@ -221,16 +242,16 @@ public class Fragment2 extends Fragment {
                                             c = R.color.expert;
                                             break;
                                         case "candidate master":
-                                            c = R.color.specialist;
+                                            c = R.color.cm;
                                             break;
                                         case "master":
                                         case "international master":
-                                            c = R.color.specialist;
+                                            c = R.color.master;
                                             break;
                                         case "grandmaster":
                                         case "international grandmaster":
                                         case "legendary grandmaster":
-                                            c = R.color.specialist;
+                                            c = R.color.gmaster;
                                             break;
                                         default:
                                             c = R.color.unrated;
@@ -273,7 +294,7 @@ public class Fragment2 extends Fragment {
                                         c = R.color.expert;
                                         break;
                                     case "candidate master":
-                                        c = R.color.specialist;
+                                        c = R.color.cm;
                                         break;
                                     case "master":
                                     case "international master":
@@ -395,13 +416,7 @@ public class Fragment2 extends Fragment {
                                 create_verdicts();
                                 create_tags();
                                 create_levels();
-                                pb.setVisibility(GONE);
-                                fragment_show_when_ready.setVisibility(View.VISIBLE);
-                                showHiddenProfile.setVisibility(View.VISIBLE);
-
-
-
-
+                                create_ratings();
 
 
 
@@ -418,6 +433,68 @@ public class Fragment2 extends Fragment {
                         }
                     });
                     /*-------------------------------*/
+                    /*-------------------------------*/
+                    //max +ve wala
+
+                    Retrofit retrofit_b = new Retrofit.Builder()
+                            .baseUrl(purl)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+
+                    ratings_api api_b = retrofit_b.create(ratings_api.class);
+                    String extraUrl_b = "user.rating?handle=" + CF_handle;
+                    Call<ratings_change> call_b = api_b.getModels(extraUrl_b);
+
+
+                    call_b.enqueue(new Callback<ratings_change>() {
+                        @Override
+                        public void onResponse(Call<ratings_change> call, Response<ratings_change> response) {
+                            try {
+
+                                List<results_rating_change> result = response.body().getResult() ;
+
+
+                                total_contests=result.size();
+                                for(int i=0;i<result.size();i++)
+                                {
+                                     maxRank=Math.min(result.get(i).getRank(),maxRank);
+                                     minRank=Math.max(result.get(i).getRank(),minRank);
+                                     maxpos=Math.max(result.get(i).getNewRating()-result.get(i).getOldRating(),maxpos);
+                                     maxneg=Math.min(result.get(i).getNewRating()-result.get(i).getOldRating(),maxneg);
+
+                                }
+                                Log.i(TAG, "onResponse: ratings change"+total_contests);
+
+                                t1.setText(total_contests.toString());
+                                t2.setText(maxRank.toString());
+                                t3.setText(minRank.toString());
+                                t4.setText(maxpos.toString());
+                                t5.setText(maxneg.toString());
+
+                                pb.setVisibility(GONE);
+                                fragment_show_when_ready.setVisibility(View.VISIBLE);
+                                showHiddenProfile.setVisibility(View.VISIBLE);
+
+
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ratings_change> call, Throwable t) {
+                            Toast.makeText(getContext(), "Something went wrong!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+                    /*-------------------------------*/
+
+
 
                 }
             });
@@ -429,6 +506,53 @@ public class Fragment2 extends Fragment {
 
 
         return view;
+    }
+
+
+
+    private void create_ratings() {
+        ArrayList<Integer>temp=new ArrayList<Integer>();
+        for(Map.Entry<Integer,Integer> entry : mpp_ratings.entrySet())
+        {
+            temp.add(entry.getKey());
+        }
+        Collections.sort(temp);
+
+        barChart_ratings.getDescription().setEnabled(false);
+        barChart_ratings.setFitBars(true);
+        int count =mpp_ratings.size();
+        ArrayList<BarEntry>val=new ArrayList<>();
+        Integer[]labels=new Integer[mpp_ratings.size()];
+        int i=1;
+        for(Integer entry : temp)
+        {   if(entry==0)continue;
+            val.add(new BarEntry(i,mpp_ratings.get(entry)));
+            labels[i-1]=entry;
+            i++;
+        }
+
+        barChart_ratings.getDescription().setEnabled(false);
+        BarDataSet set1=new BarDataSet(val,"Question Ratings");
+        set1.setColors(ColorTemplate.rgb("#1976D2"));
+        set1.setValueTextSize(7f);
+        set1.setDrawValues(true);
+
+        barChart_ratings.getXAxis().setDrawGridLines(false);
+        BarData data=new BarData(set1);
+        //To set components of x axis
+        XAxis xAxis = barChart_ratings.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setTextSize(7f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        barChart_ratings.getXAxis().setLabelCount(count);
+        barChart_ratings.getXAxis().setValueFormatter(new MyratingsYAxisValueFormatter(labels));
+
+
+
+        barChart_ratings.setDrawGridBackground(false);
+        barChart_ratings.setData(data);
+        barChart_ratings.invalidate();
     }
 
     private void create_levels() {
