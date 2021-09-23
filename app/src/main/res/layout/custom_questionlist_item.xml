@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:visibility="visible"
+    app:cardCornerRadius="10dp"
+    android:id="@+id/question_item_view"
+    app:cardElevation="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@color/white"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center"
+            android:id="@+id/question_name"
+            android:textSize="20sp"
+            android:text="1324C Buddies and prey"/>
+
+
+
+
+        </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contest_name_5"
+        android:text="Codeforces Round #82"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+
+        />
+
+
+</LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -111,7 +112,7 @@ public class  Fragment1 extends Fragment {
         // Inflate the layout for this fragment
         Log.i(TAG, "onCreateView: HKKGGGHGHGHJJHHJ");
         View view= inflater.inflate(R.layout.fragment_1, container, false);
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
 
         emptyView = (TextView) view.findViewById(R.id.empty_view);

@@ -2,6 +2,7 @@ package com.example.codeforces_info;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -73,6 +74,7 @@ public class Authentication extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
        // getSupportActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -160,7 +162,7 @@ public class Authentication extends AppCompatActivity {
 
                                             Map<String,String> mp=new HashMap<>();
 
-                                            mp.put("handle",CF_id.trim());
+                                            mp.put("handle",CF_id.trim().toLowerCase());
                                             myRef.set(mp);
                                         }
                                         startActivity(new Intent(getApplicationContext(),tabs.class));
@@ -187,8 +189,9 @@ public class Authentication extends AppCompatActivity {
         progressBar.setIndeterminateDrawable(foldingCube);
         cf_handle=(EditText)findViewById(R.id.cf_handle);
 
+
         progressBar.setVisibility(View.VISIBLE);
-        CF_id=cf_handle.getText().toString().trim();
+        CF_id=cf_handle.getText().toString().trim().toLowerCase();
         if(CF_id.contains(";") || CF_id.contains(" ") ) {
 
             Toast.makeText(this, "Enter valid Codeforces handle", Toast.LENGTH_SHORT).show();

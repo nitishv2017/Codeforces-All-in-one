@@ -2,11 +2,13 @@ package com.example.codeforces_info;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -126,6 +128,9 @@ public class Fragment2 extends Fragment {
   Integer maxRank=1000000,minRank=0,maxpos=0,maxneg=1000000,total_contests=0;
     TextView t1,t2,t3,t4,t5;
 
+    View remove_friend;
+    TextView sneak_submission_rename;
+
     //submissions👆
     String qurl = "https://codeforces.com/api/";
     String surl = "https://codeforces.com/api/";
@@ -138,20 +143,39 @@ public class Fragment2 extends Fragment {
     View showHiddenProfile;
     TextView emptyView;
     View fragment_show_when_ready;
+    View additional_bar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_2, container, false);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         fragment_show_when_ready=view.findViewById(R.id.fragment2_view);
         pb = view.findViewById(R.id.progress_profile);
         Sprite foldingCube = new FoldingCube();
         pb.setIndeterminateDrawable(foldingCube);
+
+        sneak_submission_rename=view.findViewById(R.id.sneak_text);
+        sneak_submission_rename.setText("View submissions");
+
+        sneak_submission_rename.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), Sneak_submissions.class);
+                i.putExtra("cf_handle", CF_handle);
+                startActivity(i);
+            }
+        });
+
+        remove_friend=view.findViewById(R.id.unfriend_view);
+        remove_friend.setVisibility(GONE);
+
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         emptyView = view.findViewById(R.id.f2empty_view);
         showHiddenProfile=view.findViewById(R.id.LLtohide);
-
+        additional_bar=view.findViewById(R.id.action_bar_additional);
+        additional_bar.setVisibility(GONE);
         //charts
         pieChart=view.findViewById(R.id.pie_chart_verdicts);
         barChart_tags=view.findViewById(R.id.bar_chart_tags);
@@ -549,7 +573,7 @@ public class Fragment2 extends Fragment {
         barChart_ratings.getXAxis().setValueFormatter(new MyratingsYAxisValueFormatter(labels));
 
 
-
+        barChart_ratings.animate();
         barChart_ratings.setDrawGridBackground(false);
         barChart_ratings.setData(data);
         barChart_ratings.invalidate();
@@ -592,7 +616,7 @@ public class Fragment2 extends Fragment {
         barChart_levels.getXAxis().setValueFormatter(new MyYAxisValueFormatter(labels));
 
 
-
+        barChart_levels.animate();
         barChart_levels.setDrawGridBackground(false);
         barChart_levels.setData(data);
         barChart_levels.invalidate();
@@ -642,6 +666,7 @@ public class Fragment2 extends Fragment {
 
         barChart_tags.setDrawGridBackground(false);
         barChart_tags.setData(data);
+        barChart_tags.animate();
         barChart_tags.invalidate();
 
 
@@ -688,7 +713,7 @@ public class Fragment2 extends Fragment {
         pieChart.setData(data);
 
 
-
+        pieChart.animate();
         pieChart.invalidate();
 
 

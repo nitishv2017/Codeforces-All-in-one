@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/logo_arrow_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Codeforces_Info">
-        <activity android:name=".Sneak_submissions"></activity>
+        <activity android:name=".CompareUsersResult"></activity>
+        <activity android:name=".webview_submissions" />
+        <activity android:name=".Sneak_submissions" />
         <activity android:name=".Friend_profile_view" />
         <activity android:name=".Friend_Profile" />
         <activity android:name=".UsernameEntry" />

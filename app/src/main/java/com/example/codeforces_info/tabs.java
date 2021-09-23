@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -49,22 +51,37 @@ public class tabs extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabs);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Log.i(TAG, "onCreate: fuck");
         heading=findViewById(R.id.heading);
+        Intent intent = getIntent();
+
 
         if(savedInstanceState==null)
         {
 
 
             chipNavigationBar = findViewById(R.id.bottom_navigation_bar);
-            chipNavigationBar.setItemSelected(R.id.profile,true);
-            bottomMenu();
-            heading.setText("Profile");
-            fragmentManager = getSupportFragmentManager();
-            Fragment2 homeFragment = new Fragment2();
-            fragmentManager.beginTransaction().replace(R.id.frameContainer, homeFragment)
-                    .commit();
 
+            if (intent.hasExtra("reverttofriendslist")) {
+                heading.setText("Sneak Friends");
+                fragmentManager = getSupportFragmentManager();
+                Fragment3 newFragment = new Fragment3();
+                fragmentManager.beginTransaction().replace(R.id.frameContainer, newFragment)
+                        .commit();
+                chipNavigationBar.setItemSelected(R.id.sneakin,true);
+                bottomMenu();
+
+            }
+            else {
+                heading.setText("Profile");
+                fragmentManager = getSupportFragmentManager();
+                Fragment2 homeFragment = new Fragment2();
+                fragmentManager.beginTransaction().replace(R.id.frameContainer, homeFragment)
+                        .commit();
+                chipNavigationBar.setItemSelected(R.id.profile,true);
+                bottomMenu();
+            }
           //  getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
           //  getSupportActionBar().setCustomView(R.layout.custom_action_bar);
 
@@ -116,6 +133,12 @@ public class tabs extends AppCompatActivity {
                     case R.id.sneakin: {
                         fragment = new Fragment3();
                         heading.setText("Sneak Friends");
+
+                    }
+                    break;
+                    case R.id.compare: {
+                        fragment = new Fragment4();
+                        heading.setText("Compare Users");
 
                     }
                 }

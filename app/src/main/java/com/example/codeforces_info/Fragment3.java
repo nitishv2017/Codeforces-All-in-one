@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -119,18 +120,24 @@ public class Fragment3 extends Fragment {
     TextView emptyView;
     FirebaseFirestore db;
     FirebaseUser user;
-    AlertDialog dialog;
+
     private FirebaseAuth mAuth;
+    AlertDialog dialog;
     RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_3, container, false);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         cc=getContext();
         progressBar = (ProgressBar)v.findViewById(R.id.friend_progress);
         Sprite foldingCube = new FoldingCube();
         progressBar.setIndeterminateDrawable(foldingCube);
+
+
+
         //ADDING FRIEND---->
         FloatingActionButton fab = v.findViewById(R.id.fab);
 
@@ -235,6 +242,7 @@ public class Fragment3 extends Fragment {
             Toast.makeText(getContext(), "Enter valid Codeforces handle", Toast.LENGTH_SHORT).show();
             return;
         }
+        SearchedFriend=SearchedFriend.toLowerCase();
         qurl="https://codeforces.com/api/user.info?handles=";
         qurl=qurl+SearchedFriend;
         status_response="";
@@ -324,7 +332,7 @@ public class Fragment3 extends Fragment {
         db = FirebaseFirestore.getInstance();
         DocumentReference myRef = db.collection("Users").document(user.getUid());
 
-        myRef.update("friends", FieldValue.arrayUnion(SearchedFriend)).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.update("friends", FieldValue.arrayUnion(SearchedFriend.toLowerCase())).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 // Reload current fragment
@@ -394,12 +402,34 @@ public class Fragment3 extends Fragment {
                     JSONObject o= jarray.getJSONObject(i);
                     ArrayList<String>ss=new ArrayList<String>();
                     ss.add(o.getString("avatar"));
-                    ss.add(o.getString("handle"));
+                    String handle=o.getString("handle");
+                    ss.add(handle.toLowerCase());
                     if(o.has("rank"))
                     {ss.add(o.getString("rank"));
                         Log.i(TAG, "oyeee____>>>>>: "+o.getString("rank"));}
                     else
                     ss.add("unranked");
+
+                    if(o.has("rating"))
+                    {
+                        Integer d=o.getInt("rating");
+                        ss.add(d.toString());
+                    }
+                    else ss.add("0");
+
+                    if(o.has("lastOnlineTimeSeconds"))
+                    {
+                        Integer d=o.getInt("lastOnlineTimeSeconds");
+                        Long now=System.currentTimeMillis()/ 1000L;
+                        Long time=d.longValue();
+                        Log.i(TAG, "onPostExecute: timeeeee"+now+ " "+time);
+                        time=Math.abs(time-now);
+                        if(time<=3000)
+                        ss.add("1");
+                        else ss.add("-1");
+                    }
+                    else ss.add("-1");
+
                     finalList.add(ss);
                 }
 

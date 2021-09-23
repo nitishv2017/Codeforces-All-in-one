@@ -14,6 +14,11 @@
         android:title="Sneak friends"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/compare"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+        android:title="Compare"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/schedules"
         android:icon="@drawable/outline_calendar_today_white_24"
         android:title="Schedules"

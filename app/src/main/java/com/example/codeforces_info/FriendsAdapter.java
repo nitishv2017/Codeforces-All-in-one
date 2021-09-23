@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -58,7 +59,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         Picasso.get().load(current.get(0)).into(holder.img);
         holder.txt.setText(current.get(1));
-        holder.txt.setTextColor(context.getResources().getColor( getRankColor(current.get(2)) ));
+        int g=getRankColor(current.get(2));
+
+        holder.txt.setTextColor(ContextCompat.getColor(context, g));
         //Log.i(TAG, "onBindViewHolder:0000------>>>> "+current.get(2));
         holder.friend_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +71,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 v.getContext().startActivity(i);
             }
         });
+        holder.rating_item.setTextColor(ContextCompat.getColor(context, g));
+        holder.rating_item.setText(current.get(3));
+        if(current.get(4).equals("1"))
+        holder.online_status.setVisibility(View.VISIBLE);
+        else holder.online_status.setVisibility(View.INVISIBLE);
+
     }
 
 
@@ -81,12 +90,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         private ImageView img;
         private TextView txt;
         private View friend_view;
+        private View online_status;
+        private TextView rating_item;
         public ViewHolder(@NonNull View view) {
             super(view);
 
             this.friend_view=(View) view.findViewById(R.id.friend_item_view);
            this.img=(ImageView)view.findViewById(R.id.item_profile_picture_friend);
            this.txt=(TextView)view.findViewById(R.id.handle_txt);
+            this.online_status=view.findViewById(R.id.online);
+            this.rating_item=view.findViewById(R.id.rating_item);
         }
     }
 

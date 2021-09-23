@@ -1,4 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EBF6FA">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#EBF6FA"
+        android:id="@+id/action_bar_additional"
+        android:layout_height="?actionBarSize">
+        <ImageView
+            android:id="@+id/back_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/back_btn"
+            />
+        <TextView
+            android:id="@+id/heading_my"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="#EBF6FA"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_height="?actionBarSize"
+            android:textSize="24sp"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/primary_text"
+            android:fontFamily="@font/berlin"/>
+
+    </RelativeLayout>
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -271,28 +310,60 @@
                             </androidx.cardview.widget.CardView>
 
                         </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                        <FrameLayout
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:id="@+id/sneak"
+                        android:layout_marginTop="6dp"
+                        android:elevation="5dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/border_2">
+                        <TextView
+                            android:id="@+id/sneak_text"
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:layout_margin="3dp"
+                            android:text="Sneak submissions"
+                            android:textColor="@color/white"
+                            />
+                    </FrameLayout>
+
+
+                    <FrameLayout
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:id="@+id/unfriend_view"
+                        android:layout_marginTop="6dp"
+                        android:elevation="5dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/border_2">
+                        <TextView
                             android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:id="@+id/sneak"
-                            android:layout_marginTop="6dp"
-                            android:elevation="5dp"
-                            android:layout_marginBottom="6dp"
-                            android:background="@drawable/border_2">
-                            <TextView
-                                android:layout_gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="3dp"
-                                android:text="Sneak last submissions"
-                                android:textColor="@color/white"
-                                />
-                        </FrameLayout>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:text="Remove Friend"
+                            android:textColor="@color/white"
+                            />
+                    </FrameLayout>
+
+                </LinearLayout>
+
 
 
 
@@ -556,3 +627,4 @@
 
 </FrameLayout>
 </FrameLayout>
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.codeforces_info;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
@@ -33,8 +34,10 @@ import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FoldingCube;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
@@ -76,6 +79,12 @@ public class Friend_profile_view extends AppCompatActivity {
     //sneak button
     FrameLayout sneak_btn;
 
+    TextView heading;
+    View remove_friend;
+
+    FirebaseFirestore db;
+    FirebaseUser user;
+    private FirebaseAuth mAuth;
 
     String CF_handle="";
     String qurl = "https://codeforces.com/api/";
@@ -87,14 +96,48 @@ public class Friend_profile_view extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_2);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        ImageView back=findViewById(R.id.back_profile);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Friend_profile_view.this.onBackPressed();
+            }
+        });
+
 
         Intent i=getIntent();
         CF_handle=i.getStringExtra("handle");
+        CF_handle=CF_handle.toLowerCase();
 
         fragment_show_when_ready=findViewById(R.id.fragment2_view);
         pb = findViewById(R.id.progress_profile);
         Sprite foldingCube = new FoldingCube();
         pb.setIndeterminateDrawable(foldingCube);
+
+        heading=findViewById(R.id.heading_my);
+        heading.setText(CF_handle);
+
+        remove_friend=findViewById(R.id.unfriend_view);
+
+        remove_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth = FirebaseAuth.getInstance();
+                user = mAuth.getCurrentUser();
+
+                // Write a message to the database
+                db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("Users").document(user.getUid());
+                docRef.update("friends", FieldValue.arrayRemove(CF_handle));
+                Intent i=new Intent(Friend_profile_view.this,tabs.class);
+                i.putExtra("reverttofriendslist","1");
+                startActivity(i);
+                finish();
+
+            }
+        });
+
 
 
         emptyView = findViewById(R.id.f2empty_view);
@@ -118,7 +161,9 @@ public class Friend_profile_view extends AppCompatActivity {
         sneak_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Sneak_submissions.class));
+                Intent i = new Intent(getApplicationContext(), Sneak_submissions.class);
+                i.putExtra("cf_handle", CF_handle);
+                startActivity(i);
             }
         });
 
@@ -488,7 +533,7 @@ public class Friend_profile_view extends AppCompatActivity {
         barChart_ratings.getXAxis().setValueFormatter(new MyratingsYAxisValueFormatter(labels));
 
 
-
+        barChart_ratings.animate();
         barChart_ratings.setDrawGridBackground(false);
         barChart_ratings.setData(data);
         barChart_ratings.invalidate();
@@ -531,7 +576,7 @@ public class Friend_profile_view extends AppCompatActivity {
         barChart_levels.getXAxis().setValueFormatter(new MyYAxisValueFormatter(labels));
 
 
-
+        barChart_levels.animate();
         barChart_levels.setDrawGridBackground(false);
         barChart_levels.setData(data);
         barChart_levels.invalidate();
@@ -578,7 +623,7 @@ public class Friend_profile_view extends AppCompatActivity {
         xAxis.setDrawGridLines(false);
 
 
-
+        barChart_tags.animate();
         barChart_tags.setDrawGridBackground(false);
         barChart_tags.setData(data);
         barChart_tags.invalidate();
@@ -627,7 +672,7 @@ public class Friend_profile_view extends AppCompatActivity {
         pieChart.setData(data);
 
 
-
+        pieChart.animate();
         pieChart.invalidate();
 
 
