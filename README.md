@@ -1,6 +1,6 @@
 # Codeforces_all_in_one
 ---------------
-![alt text](https://github.com/nitishv2017/Codeforces_all_in_one/blob/master/2.jpg)
+![alt text](https://github.com/nitishv2017/Codeforces_all_in_one/blob/master/2.jpg | width=100)
 1. It analyses your Codeforces profile in depth. <br/>
 2. Sneak-in your friends activities regularly.<br/>
 3. Schedule and set your reminder for upcoming contests.<br/>
